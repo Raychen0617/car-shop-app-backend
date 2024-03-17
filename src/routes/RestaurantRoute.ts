@@ -5,6 +5,23 @@ import RestaurantController from "../controller/RestaurantController";
 const router = express.Router();
 
 // api/restaurant/search/taipei
-router.get("/search/:city", param("city").isString().trim().notEmpty().withMessage("City parameter must be a string"), RestaurantController.searchRestaurant);
-
+router.get(
+    "/:restaurantId",
+    param("restaurantId")
+      .isString()
+      .trim()
+      .notEmpty()
+      .withMessage("RestaurantId paramenter must be a valid string"),
+    RestaurantController.getRestaurant
+  );
+  
+  router.get(
+    "/search/:city",
+    param("city")
+      .isString()
+      .trim()
+      .notEmpty()
+      .withMessage("City paramenter must be a valid string"),
+    RestaurantController.searchRestaurant
+  );
 export default router;
