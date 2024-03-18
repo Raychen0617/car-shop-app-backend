@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Restaurant from "../models/restaurant";
 
+// get restaurant by Id
 const getRestaurant = async (req: Request, res: Response) => {
   try {
     const restaurantId = req.params.restaurantId;
@@ -17,9 +18,25 @@ const getRestaurant = async (req: Request, res: Response) => {
   }
 };
 
+// get all restaurant
+const getAllRestaurant = async (req: Request, res: Response) => {
+  try {
+    const allrestaurtants = await Restaurant.find({});
+    res.json(allrestaurtants);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
+
+// search restaurant
 const searchRestaurant = async (req: Request, res: Response) => {
   try {
     const city = req.params.city;
+    if (city === 'ALL'){
+      const restaurtants = await Restaurant.find({});
+      return res.json(restaurtants);
+    }
 
     const searchQuery = (req.query.searchQuery as string) || "";
     const selectedCuisines = (req.query.selectedCuisines as string) || "";
@@ -47,7 +64,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
       const cuisinesArray = selectedCuisines
         .split(",")
         .map((cuisine) => new RegExp(cuisine, "i"));
-      
+
       // matches all in cuisinesArray
       query["cuisines"] = { $all: cuisinesArray };
     }
@@ -84,7 +101,6 @@ const searchRestaurant = async (req: Request, res: Response) => {
     };
 
     res.json(response);
-    
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });
@@ -92,6 +108,7 @@ const searchRestaurant = async (req: Request, res: Response) => {
 };
 
 export default {
+  getAllRestaurant,
   getRestaurant,
   searchRestaurant,
 };

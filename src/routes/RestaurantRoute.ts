@@ -6,22 +6,23 @@ const router = express.Router();
 
 // api/restaurant/search/taipei
 router.get(
-    "/:restaurantId",
-    param("restaurantId")
-      .isString()
-      .trim()
-      .notEmpty()
-      .withMessage("RestaurantId paramenter must be a valid string"),
-    RestaurantController.getRestaurant
-  );
-  
-  router.get(
-    "/search/:city",
-    param("city")
-      .isString()
-      .trim()
-      .notEmpty()
-      .withMessage("City paramenter must be a valid string"),
-    RestaurantController.searchRestaurant
-  );
+  "/:restaurantId",
+  param("restaurantId")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("RestaurantId paramenter must be a valid string"),
+  RestaurantController.getRestaurant
+);
+
+router.get(
+  "/search/:city",
+  param("city")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("City paramenter must be a valid string"),
+  RestaurantController.searchRestaurant
+);
+
 export default router;
